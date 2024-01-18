@@ -1,14 +1,14 @@
 #include <iostream>
-#include <fstream> //для потока ввода/вывода в файл
-#include <sstream> //для потока ввода/вывода в строку
+#include <fstream> //РґР»СЏ РїРѕС‚РѕРєР° РІРІРѕРґР°/РІС‹РІРѕРґР° РІ С„Р°Р№Р»
+#include <sstream> //РґР»СЏ РїРѕС‚РѕРєР° РІРІРѕРґР°/РІС‹РІРѕРґР° РІ СЃС‚СЂРѕРєСѓ
 using namespace std;
 
 void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
     ifstream input("number1.txt");
     ofstream output("number3.txt");
-    ofstream output2("number2.txt", ios_base::app); // открыть для добавления
+    ofstream output2("number2.txt", ios_base::app); // РѕС‚РєСЂС‹С‚СЊ РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ
     string line;
-    int counts[1001] = { 0 }; // для подсчета чисел
+    int counts[1001] = { 0 }; // РґР»СЏ РїРѕРґСЃС‡РµС‚Р° С‡РёСЃРµР»
 
     while (getline(input, line)) {
         stringstream ss(line);
@@ -20,7 +20,7 @@ void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
 
     int distinctCount = 0;
     for (int i = 0; i <= 1000; i++) {
-        if (counts[i] > 0) {
+        if (counts[i] > 1) {
             output << "Number " << i << " : " << counts[i] << "\n";
             cout << "Number " << i << " : " << counts[i] << "\n";
             distinctCount++;
@@ -34,7 +34,7 @@ void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
     output.close();
     output2.close();
 
-    // Замена букв в файле text1.txt
+    // Р—Р°РјРµРЅР° Р±СѓРєРІ РІ С„Р°Р№Р»Рµ text1.txt
     ifstream inputText("text1.txt");
     ofstream outputText("text2.txt");
     while (getline(inputText, line)) {
@@ -51,18 +51,18 @@ void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
 int Fill_file(int n) {
     int number, m, str = 0;
     ofstream output;
-    // n чисел		в диапазоне -100..100	пишутся в строки, где чисел от 0 до 10
+    // n С‡РёСЃРµР»		РІ РґРёР°РїР°Р·РѕРЅРµ -100..100	РїРёС€СѓС‚СЃСЏ РІ СЃС‚СЂРѕРєРё, РіРґРµ С‡РёСЃРµР» РѕС‚ 0 РґРѕ 10
     output.open("number1.txt");
     if (!output.is_open())
         cout << "Error of open File!" << endl;
     else
         while (n > 0) {
-            str++; //кол-во строк в файле
-            m = rand() % 11; //кол-во чисел в строке   /   остаток от деления на 11 -- даёт диапазон 0..10
+            str++; //РєРѕР»-РІРѕ СЃС‚СЂРѕРє РІ С„Р°Р№Р»Рµ
+            m = rand() % 11; //РєРѕР»-РІРѕ С‡РёСЃРµР» РІ СЃС‚СЂРѕРєРµ   /   РѕСЃС‚Р°С‚РѕРє РѕС‚ РґРµР»РµРЅРёСЏ РЅР° 11 -- РґР°С‘С‚ РґРёР°РїР°Р·РѕРЅ 0..10
             if (m > n) m = n;
             for (int i = 0; i < m; i++) {
-                number = -100 + rand() % 201; //текущее число
-                output << number << "\t"; //к -100 прибавляем остаток от деления на 201 -- даёт диапазон -100..100
+                number = -100 + rand() % 201; //С‚РµРєСѓС‰РµРµ С‡РёСЃР»Рѕ
+                output << number << "\t"; //Рє -100 РїСЂРёР±Р°РІР»СЏРµРј РѕСЃС‚Р°С‚РѕРє РѕС‚ РґРµР»РµРЅРёСЏ РЅР° 201 -- РґР°С‘С‚ РґРёР°РїР°Р·РѕРЅ -100..100
                 cout << number << "\t";
                 n -= 1;
             }
@@ -70,24 +70,24 @@ int Fill_file(int n) {
             cout << endl;
         }
     cout << endl;
-    output.close(); // закрыли поток ввода "F"
+    output.close(); // Р·Р°РєСЂС‹Р»Рё РїРѕС‚РѕРє РІРІРѕРґР° "F"
     return str;
 }
 
-//Обратить все строки файла text1.txt и вывести их в файл text2.txt.
+//РћР±СЂР°С‚РёС‚СЊ РІСЃРµ СЃС‚СЂРѕРєРё С„Р°Р№Р»Р° text1.txt Рё РІС‹РІРµСЃС‚Рё РёС… РІ С„Р°Р№Р» text2.txt.
 void Reversed_Line() {
     ifstream input("text1.txt");
     ofstream output("text2.txt");
     string line;
-    while (getline(input, line)) { //rbegin читает с обратной стороны
-        string reversedLine(line.rbegin(), line.rend()); // Переворачиваем строку
+    while (getline(input, line)) { //rbegin С‡РёС‚Р°РµС‚ СЃ РѕР±СЂР°С‚РЅРѕР№ СЃС‚РѕСЂРѕРЅС‹
+        string reversedLine(line.rbegin(), line.rend()); // РџРµСЂРµРІРѕСЂР°С‡РёРІР°РµРј СЃС‚СЂРѕРєСѓ
         output << reversedLine << endl;
     }
 }
 
-//Функция для выравнивания текста по правому краю
-string rightAlign(const string& line, int width) { // & - это ссылка. Мы передаём параметр по ссылке, когда хотим,
-    // чтобы он изменялся и в главной функции main()
+//Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ С‚РµРєСЃС‚Р° РїРѕ РїСЂР°РІРѕРјСѓ РєСЂР°СЋ
+string rightAlign(const string& line, int width) { // & - СЌС‚Рѕ СЃСЃС‹Р»РєР°. РњС‹ РїРµСЂРµРґР°С‘Рј РїР°СЂР°РјРµС‚СЂ РїРѕ СЃСЃС‹Р»РєРµ, РєРѕРіРґР° С…РѕС‚РёРј,
+    // С‡С‚РѕР±С‹ РѕРЅ РёР·РјРµРЅСЏР»СЃСЏ Рё РІ РіР»Р°РІРЅРѕР№ С„СѓРЅРєС†РёРё main()
     if (line.length() >= width)
         return line;
     else {
@@ -95,7 +95,7 @@ string rightAlign(const string& line, int width) { // & - это ссылка. Мы передаё
     }
 }
 
-// Функция для выравнивания текста по центру
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ С‚РµРєСЃС‚Р° РїРѕ С†РµРЅС‚СЂСѓ
 string centerAlign(const string& text, int width) {
     if (text.length() >= width)
         return text;
@@ -116,30 +116,23 @@ int main()
     cin >> oldLetter;
     cout << "Enter the new letter: ";
     cin >> newLetter;
-    int str = Fill_file(n); //кол-во строк в файле
+    int str = Fill_file(n); //РєРѕР»-РІРѕ СЃС‚СЂРѕРє РІ С„Р°Р№Р»Рµ
     
-    CountNumbersAndReplaceLetters(oldLetter, newLetter);//Выполняет задание 20 варианта
+    CountNumbersAndReplaceLetters(oldLetter, newLetter);
 
-    ofstream fout;
-    fout.open("number2.txt", ios::app); //запись в конец файла
-    fout << " Result = " << str;
-    cout << "\nResult = " << str << endl;
-    fout.close();
-
-     //Обратить все строки файла text1.txt и вывести их в файл text2.txt.
 
     ifstream input_number("number2.txt");
     ifstream input_text("text2.txt");
     ofstream output("total.txt");
     string line;
-    // Записываем элементы из number2.txt, выровненные по правому краю
+    // Р—Р°РїРёСЃС‹РІР°РµРј СЌР»РµРјРµРЅС‚С‹ РёР· number2.txt, РІС‹СЂРѕРІРЅРµРЅРЅС‹Рµ РїРѕ РїСЂР°РІРѕРјСѓ РєСЂР°СЋ
     output << "Elements from number2.txt (right-aligned):\n";
     cout << "Elements from number2.txt (right-aligned):\n";
     while (getline(input_number, line)) {
-        output << rightAlign(line, 150) << "\n"; // Здесь 100 - ширина всего окна
+        output << rightAlign(line, 150) << "\n"; // Р—РґРµСЃСЊ 100 - С€РёСЂРёРЅР° РІСЃРµРіРѕ РѕРєРЅР°
         cout << rightAlign(line, 150) << "\n";
     }
-    //Записываем элементы из text2.txt, выровненные по центру
+    //Р—Р°РїРёСЃС‹РІР°РµРј СЌР»РµРјРµРЅС‚С‹ РёР· text2.txt, РІС‹СЂРѕРІРЅРµРЅРЅС‹Рµ РїРѕ С†РµРЅС‚СЂСѓ
     output << "\nElements from text2.txt (center-aligned):\n";
     cout << "\nElements from text2.txt (center-aligned):\n";
     while (getline(input_text, line)) {
@@ -150,15 +143,15 @@ int main()
     input_text.close();
     output.close();
 
-    //Переименование файла total.txt
+    //РџРµСЂРµРёРјРµРЅРѕРІР°РЅРёРµ С„Р°Р№Р»Р° total.txt
     string newFileName;
-    cout << "\nEnter a new file name (including extension, e.g. new_total.txt): ";//ввод имени включая расширение, типа New_File.txt
+    cout << "\nEnter a new file name (including extension, e.g. new_total.txt): ";//РІРІРѕРґ РёРјРµРЅРё РІРєР»СЋС‡Р°СЏ СЂР°СЃС€РёСЂРµРЅРёРµ, С‚РёРїР° New_File.txt
     cin >> newFileName;
     newFileName += ".txt";
     if (rename("total.txt", newFileName.c_str()) == 0)
         cout << "The total.txt file has been successfully renamed to " << newFileName << endl;
     else {
-        cerr << "Failed to rename file." << endl;//вывод ошибки, если не удалось
+        cerr << "Failed to rename file." << endl;//РІС‹РІРѕРґ РѕС€РёР±РєРё, РµСЃР»Рё РЅРµ СѓРґР°Р»РѕСЃСЊ
         return 1;
     }
 
