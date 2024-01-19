@@ -3,14 +3,12 @@
 #include <sstream> //для потока ввода/вывода в строку
 using namespace std;
 
-void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
-    ifstream input("number1.txt");
-    ofstream output("number3.txt");
-    ofstream output2("number2.txt", ios_base::app); // открыть для добавления
-    string line;
-    int counts[1001] = { 0 }; // для подсчета чисел
 
-    while (getline(input, line)) {
+void CountNumbers(int counts[]) { //первая функция считает какие чисела встречаются и сколько
+    ifstream input("number1.txt");
+    string line;
+
+    while (getline(input, line)) {// если число попадается, в counts в ячейку по индексу этого числа прибавляется единичка
         stringstream ss(line);
         int number;
         while (ss >> number)
@@ -18,8 +16,15 @@ void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
                 counts[number]++;
     }
 
+    input.close(); // функция ничего не возвращает, меняет исходный counts, состоящих из одних нулей
+}
+
+void WriteCountsToFile(int counts[]) { // функция записывает числа, которые встречались больше 1 раза
+    ofstream output("number3.txt");
+    ofstream output2("number2.txt", ios_base::app); // открыть для добавления
+
     int distinctCount = 0;
-    for (int i = 0; i <= 1000; i++) {
+    for (int i = 0; i <= 1000; i++) { // цикл перебирает по индексам члены массива, если больше одного - записывает индекс(число) и значение(сколько раз встретилось)
         if (counts[i] > 1) {
             output << "Number " << i << " : " << counts[i] << "\n";
             cout << "Number " << i << " : " << counts[i] << "\n";
@@ -30,14 +35,16 @@ void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
     output2 << "Result = " << distinctCount << "\n";
     cout << "Result = " << distinctCount << "\n";
 
-    input.close();
     output.close();
     output2.close();
+}
 
-    // Замена букв в файле text1.txt
+void ReplaceLetters(char oldLetter, char newLetter) { // функция берет текст из text1.txt, меняет заданную пользователем букву на другую и записывает полученный текст в text2.txt
     ifstream inputText("text1.txt");
-    ofstream outputText("text2.txt");
-    while (getline(inputText, line)) {
+    ofstream outputText("text2.txt"); // так как text2.txt не был создан, программа его создает сама
+    string line;
+
+    while (getline(inputText, line)) { // цикл перебирает каждый символ в строке, если находит старую букву - меняет на новую
         for (char& c : line)
             if (c == oldLetter)
                 c = newLetter;
@@ -47,6 +54,7 @@ void CountNumbersAndReplaceLetters(char oldLetter, char newLetter) {
     inputText.close();
     outputText.close();
 }
+
 
 int Fill_file(int n) {
     int number, m, str = 0;
@@ -117,8 +125,14 @@ int main()
     cout << "Enter the new letter: ";
     cin >> newLetter;
     int str = Fill_file(n); //кол-во строк в файле
-    
-    CountNumbersAndReplaceLetters(oldLetter, newLetter);
+    int counts[1001] = { 0 }; // для подсчета чисел
+
+    // Сначала считаем числа
+    CountNumbers(counts);
+
+    // Затем запишем результат в файлы
+    WriteCountsToFile(counts);
+    ReplaceLetters(oldLetter, newLetter);
 
 
     ifstream input_number("number2.txt");
